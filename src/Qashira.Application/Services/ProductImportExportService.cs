@@ -90,6 +90,7 @@ public sealed class ProductImportExportService(
                 SearchName = ArabicTextNormalizer.NormalizeForSearch(row.Name),
                 Category = row.Category,
                 CategoryId = row.Category?.Id > 0 ? row.Category.Id : null,
+                ProductType = ProductType.NormalProduct,
                 PurchasePrice = row.PurchasePrice,
                 SalePrice = row.SalePrice,
                 StockQuantity = row.StockQuantity,
@@ -176,7 +177,8 @@ public sealed class ProductImportExportService(
         var products = await dbContext.Products
             .AsNoTracking()
             .Include(x => x.Category)
-            .Where(x => includeInactive || x.IsActive)
+            .Where(x => (x.ProductType == ProductType.NormalProduct || x.ProductType == ProductType.PrintedProduct) &&
+                (includeInactive || x.IsActive))
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
 

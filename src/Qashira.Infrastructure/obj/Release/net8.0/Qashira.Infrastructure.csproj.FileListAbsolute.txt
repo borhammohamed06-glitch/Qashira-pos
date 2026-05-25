@@ -14,3 +14,8 @@ C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8
 C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\refint\Qashira.Infrastructure.dll
 C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira.Infrastructure.genruntimeconfig.cache
 C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\ref\Qashira.Infrastructure.dll
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Infrastructure.pdb
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Application.pdb
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Domain.pdb
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Shared.pdb
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira.Infrastructure.pdb

@@ -474,7 +474,7 @@ public sealed class POSService(
         var products = await dbContext.Products
             .AsNoTracking()
             .Where(x => productIds.Contains(x.Id) && x.IsActive)
-            .Select(x => new { x.Id, x.Name, x.StockQuantity })
+            .Select(x => new { x.Id, x.Name, x.StockQuantity, x.ProductType })
             .ToListAsync(cancellationToken);
 
         foreach (var line in productQuantities)
@@ -503,6 +503,12 @@ public sealed class POSService(
             .Where(x => x.ItemType == ItemType.Product && x.ProductId.HasValue)
             .GroupBy(x => x.ProductId!.Value)
             .ToDictionary(x => x.Key, x => x.Sum(line => line.Quantity));
+        var sellableProductIds = lines
+            .Where(x => x.ItemType == ItemType.Product && x.ProductId.HasValue)
+            .Select(x => x.ProductId!.Value)
+            .Distinct()
+            .ToHashSet();
+        var serviceMaterialIds = new HashSet<int>();
 
         var serviceLines = lines
             .Where(x => x.ItemType == ItemType.PrintingService && x.PrintingServiceTemplateId.HasValue)
@@ -518,6 +524,7 @@ public sealed class POSService(
             var templates = await dbContext.PrintingServiceTemplates
                 .AsNoTracking()
                 .Include(x => x.MaterialConsumptions)
+                .ThenInclude(x => x.Product)
                 .Where(x => templateIds.Contains(x.Id))
                 .ToListAsync(cancellationToken);
 
@@ -531,7 +538,13 @@ public sealed class POSService(
 
                 foreach (var material in template.MaterialConsumptions)
                 {
+                    if (material.Product is null || material.Product.ProductType != ProductType.PrintingMaterial)
+                    {
+                        return Result.Failure("خدمة الطباعة تحتوي على خامة غير صحيحة. اختر خامات الطباعة فقط من شاشة الخدمة.");
+                    }
+
                     var requiredQuantity = material.QuantityPerUnit * line.Quantity;
+                    serviceMaterialIds.Add(material.ProductId);
                     requiredQuantities[material.ProductId] = requiredQuantities.TryGetValue(material.ProductId, out var current)
                         ? current + requiredQuantity
                         : requiredQuantity;
@@ -548,7 +561,7 @@ public sealed class POSService(
         var products = await dbContext.Products
             .AsNoTracking()
             .Where(x => productIds.Contains(x.Id) && x.IsActive)
-            .Select(x => new { x.Id, x.Name, x.StockQuantity })
+            .Select(x => new { x.Id, x.Name, x.StockQuantity, x.ProductType })
             .ToListAsync(cancellationToken);
 
         foreach (var line in requiredQuantities)
@@ -557,6 +570,17 @@ public sealed class POSService(
             if (product is null)
             {
                 return Result.Failure("يوجد منتج أو خامة غير متاحة في الفاتورة. حدّث البيانات ثم حاول مرة أخرى.");
+            }
+
+            if (sellableProductIds.Contains(line.Key) &&
+                product.ProductType is not (ProductType.NormalProduct or ProductType.PrintedProduct))
+            {
+                return Result.Failure("خامات الطباعة لا تباع مباشرة في الكاشير. استخدم خدمة طباعة أو منتج مطبوع.");
+            }
+
+            if (serviceMaterialIds.Contains(line.Key) && product.ProductType != ProductType.PrintingMaterial)
+            {
+                return Result.Failure("خدمة الطباعة تحتوي على صنف ليس خامة طباعة.");
             }
 
             if (!allowNegativeStock && product.StockQuantity < line.Value)

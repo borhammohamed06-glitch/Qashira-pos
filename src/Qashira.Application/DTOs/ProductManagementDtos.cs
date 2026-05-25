@@ -7,6 +7,7 @@ public sealed record ProductDetailsDto(
     string Name,
     string Barcode,
     string InternalCode,
+    ProductType ProductType,
     int? CategoryId,
     string? CategoryName,
     decimal PurchasePrice,
@@ -15,7 +16,10 @@ public sealed record ProductDetailsDto(
     int PackageCount,
     int UnitsPerPackage,
     int LowStockThreshold,
-    bool IsActive);
+    bool IsActive)
+{
+    public string ProductTypeText => ProductTypeLabels.ToArabic(ProductType);
+}
 
 public sealed record CategoryOptionDto(int Id, string Name, MeasurementUnit MeasurementUnit)
 {
@@ -39,6 +43,7 @@ public sealed record UpsertProductRequest(
     string Name,
     string? Barcode,
     string? InternalCode,
+    ProductType ProductType,
     int? CategoryId,
     decimal PurchasePrice,
     decimal SalePrice,
@@ -50,6 +55,26 @@ public sealed record UpsertProductRequest(
 public sealed record UpsertCategoryRequest(int? Id, string Name, MeasurementUnit MeasurementUnit, bool IsActive);
 
 public sealed record MeasurementUnitOptionDto(MeasurementUnit Value, string Name);
+
+public sealed record ProductTypeOptionDto(ProductType Value, string Name);
+
+public static class ProductTypeLabels
+{
+    public static IReadOnlyList<ProductTypeOptionDto> SellableOptions { get; } =
+    [
+        new(ProductType.NormalProduct, "منتج عادي"),
+        new(ProductType.PrintedProduct, "منتج مطبوع")
+    ];
+
+    public static string ToArabic(ProductType productType) => productType switch
+    {
+        ProductType.NormalProduct => "منتج عادي",
+        ProductType.PrintingMaterial => "خامة طباعة",
+        ProductType.PrintedProduct => "منتج مطبوع",
+        ProductType.PrintingService => "خدمة طباعة",
+        _ => "منتج عادي"
+    };
+}
 
 public static class MeasurementUnitLabels
 {

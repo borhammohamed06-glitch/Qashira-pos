@@ -62,6 +62,7 @@
                                 <Button Content="المنتجات" Command="{Binding ShowProductsCommand}" IsEnabled="{Binding CanOpenProducts}" Style="{StaticResource SidebarButtonStyle}" Background="{Binding ActiveWorkspace, Converter={StaticResource SidebarActiveBackgroundConverter}, ConverterParameter=Products}" />
                                 <Button Content="التصنيفات" Command="{Binding ShowCategoriesCommand}" IsEnabled="{Binding CanOpenCategories}" Style="{StaticResource SidebarButtonStyle}" Background="{Binding ActiveWorkspace, Converter={StaticResource SidebarActiveBackgroundConverter}, ConverterParameter=Categories}" Margin="0,6,0,0" />
                                 <Button Content="الباركود (قيد التطوير)" Command="{Binding ShowBarcodeCommand}" IsEnabled="{Binding CanOpenBarcode}" Style="{StaticResource SidebarButtonStyle}" Background="{Binding ActiveWorkspace, Converter={StaticResource SidebarActiveBackgroundConverter}, ConverterParameter=Barcode}" Margin="0,6,0,0" />
+                                <Button Content="خامات الطباعة" Command="{Binding ShowPrintingMaterialsCommand}" IsEnabled="{Binding CanOpenPrintingMaterials}" Style="{StaticResource SidebarButtonStyle}" Background="{Binding ActiveWorkspace, Converter={StaticResource SidebarActiveBackgroundConverter}, ConverterParameter=PrintingMaterials}" Margin="0,6,0,0" />
                                 <Button Content="المخزون والتنبيهات" Command="{Binding ShowInventoryCommand}" IsEnabled="{Binding CanOpenInventory}" Style="{StaticResource SidebarButtonStyle}" Background="{Binding ActiveWorkspace, Converter={StaticResource SidebarActiveBackgroundConverter}, ConverterParameter=Inventory}" Margin="0,6,0,0" />
                             </StackPanel>
                         </Expander>
@@ -69,7 +70,6 @@
                         <Expander Header="خدمات الطباعة" IsExpanded="True" Foreground="White" Margin="0,0,0,6">
                             <StackPanel Margin="0,6,0,0">
                                 <Button Content="خدمات الطباعة" Command="{Binding ShowPrintingServicesCommand}" IsEnabled="{Binding CanOpenPrintingServices}" Style="{StaticResource SidebarButtonStyle}" Background="{Binding ActiveWorkspace, Converter={StaticResource SidebarActiveBackgroundConverter}, ConverterParameter=PrintingServices}" />
-                                <Button Content="خامات الطباعة (قيد التطوير)" Command="{Binding ShowPrintingMaterialsCommand}" IsEnabled="{Binding CanOpenPrintingMaterials}" Style="{StaticResource SidebarButtonStyle}" Background="{Binding ActiveWorkspace, Converter={StaticResource SidebarActiveBackgroundConverter}, ConverterParameter=PrintingMaterials}" Margin="0,6,0,0" />
                                 <Button Content="الإنتاج (قيد التطوير)" Command="{Binding ShowProductionCommand}" IsEnabled="{Binding CanOpenProduction}" Style="{StaticResource SidebarButtonStyle}" Background="{Binding ActiveWorkspace, Converter={StaticResource SidebarActiveBackgroundConverter}, ConverterParameter=Production}" Margin="0,6,0,0" />
                             </StackPanel>
                         </Expander>
@@ -225,6 +225,7 @@
                                       HeadersVisibility="Column">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="الاسم" Binding="{Binding Name}" Width="*" />
+                                    <DataGridTextColumn Header="النوع" Binding="{Binding ProductTypeText}" Width="105" />
                                     <DataGridTextColumn Header="الباركود" Binding="{Binding Barcode}" Width="135" />
                                     <DataGridTextColumn Header="البيع" Binding="{Binding SalePrice, StringFormat={}{0:0.00}}" Width="80" />
                                     <DataGridTextColumn Header="المخزون" Binding="{Binding StockQuantity}" Width="80" />
@@ -268,6 +269,12 @@
 
                                 <TextBlock Text="اسم المنتج" Style="{StaticResource FieldLabelText}" />
                                 <TextBox Text="{Binding ProductName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputTextBoxStyle}" />
+
+                                <TextBlock Text="نوع المنتج" Style="{StaticResource FieldLabelText}" Margin="0,12,0,8" />
+                                <ComboBox ItemsSource="{Binding ProductTypes}"
+                                          SelectedItem="{Binding SelectedProductType}"
+                                          DisplayMemberPath="Name"
+                                          Height="42" />
 
                                 <TextBlock Text="التصنيف" Style="{StaticResource FieldLabelText}" Margin="0,12,0,8" />
                                 <ComboBox ItemsSource="{Binding Categories}"
@@ -975,20 +982,109 @@
 
                 <StackPanel>
                     <TextBlock Text="خامات الطباعة" Style="{StaticResource PageTitleText}" />
-                    <TextBlock Text="شاشة مستقلة لخامات التشغيل مثل الورق والغلاف والسلك والرولات." Style="{StaticResource MutedText}" />
+                    <TextBlock Text="إدارة خامات التشغيل الداخلية مثل ورق A4 والغلاف والسلك والرولات. هذه الخامات لا تظهر للبيع في الكاشير." Style="{StaticResource MutedText}" TextWrapping="Wrap" />
                 </StackPanel>
 
-                <Border Grid.Row="1"
-                        Style="{StaticResource SurfacePanelStyle}"
-                        MaxWidth="680"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Padding="28">
-                    <StackPanel>
-                        <TextBlock Text="هذه الشاشة قيد التطوير" Style="{StaticResource SectionTitleText}" TextAlignment="Center" />
-                        <TextBlock Text="لن يتم فتح شاشة المنتجات هنا. سيتم تخصيص هذه الشاشة لإدارة خامات الطباعة فقط." Style="{StaticResource MutedText}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,12,0,0" />
-                    </StackPanel>
-                </Border>
+                <Grid Grid.Row="1" Margin="0,18,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.1*" />
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="0.9*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Style="{StaticResource SurfacePanelStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <DockPanel Margin="0,0,0,14">
+                                <Button DockPanel.Dock="Left" Content="بحث" Command="{Binding SearchPrintingMaterialsCommand}" Style="{StaticResource SecondaryButtonStyle}" Margin="8,0,0,0" />
+                                <CheckBox DockPanel.Dock="Left"
+                                          Content="عرض المتوقفة"
+                                          IsChecked="{Binding ShowInactivePrintingMaterials}"
+                                          VerticalAlignment="Center"
+                                          FontSize="15"
+                                          Margin="8,0,0,0" />
+                                <TextBox Text="{Binding PrintingMaterialsSearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputTextBoxStyle}" ToolTip="بحث باسم الخامة أو الباركود" />
+                            </DockPanel>
+
+                            <DataGrid Grid.Row="1"
+                                      ItemsSource="{Binding ManagedPrintingMaterials}"
+                                      SelectedItem="{Binding SelectedManagedPrintingMaterial}"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True"
+                                      HeadersVisibility="Column"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="الخامة" Binding="{Binding Name}" Width="*" />
+                                    <DataGridTextColumn Header="الوحدة" Binding="{Binding MeasurementUnitText}" Width="80" />
+                                    <DataGridTextColumn Header="المخزون" Binding="{Binding StockQuantity, StringFormat={}{0:0.###}}" Width="90" />
+                                    <DataGridTextColumn Header="حد التنبيه" Binding="{Binding LowStockThreshold}" Width="90" />
+                                    <DataGridTextColumn Header="الحالة" Binding="{Binding StatusText}" Width="90" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <WrapPanel Grid.Row="2" HorizontalAlignment="Left" Margin="0,14,0,0">
+                                <Button Content="خامة جديدة" Command="{Binding NewPrintingMaterialCommand}" Style="{StaticResource SecondaryButtonStyle}" Margin="8,0,0,8" />
+                                <Button Content="تعديل المحدد" Command="{Binding EditSelectedPrintingMaterialCommand}" Style="{StaticResource SecondaryButtonStyle}" Margin="8,0,0,8" />
+                                <Button Content="تفعيل / إيقاف" Command="{Binding TogglePrintingMaterialActiveCommand}" IsEnabled="{Binding CanToggleManagedPrintingMaterialActive}" Style="{StaticResource DangerButtonStyle}" Margin="8,0,0,8" />
+                            </WrapPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Column="2" Style="{StaticResource SurfacePanelStyle}">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel>
+                                <TextBlock Text="بيانات الخامة" Style="{StaticResource SectionTitleText}" />
+                                <TextBlock Text="الخامات داخلية فقط وتستخدمها خدمات الطباعة. لا يتم عرضها ضمن منتجات البيع." Style="{StaticResource MutedText}" TextWrapping="Wrap" Margin="0,4,0,12" />
+
+                                <TextBlock Text="اسم الخامة" Style="{StaticResource FieldLabelText}" />
+                                <TextBox Text="{Binding ManagedPrintingMaterialName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputTextBoxStyle}" />
+
+                                <TextBlock Text="التصنيف / وحدة القياس" Style="{StaticResource FieldLabelText}" Margin="0,12,0,8" />
+                                <ComboBox ItemsSource="{Binding Categories}"
+                                          SelectedItem="{Binding SelectedManagedPrintingMaterialCategory}"
+                                          DisplayMemberPath="Name"
+                                          Height="42" />
+                                <TextBlock Text="{Binding SelectedManagedPrintingMaterialUnitText}" Style="{StaticResource MutedText}" TextWrapping="Wrap" Margin="0,8,0,0" />
+
+                                <TextBlock Text="الباركود" Style="{StaticResource FieldLabelText}" Margin="0,12,0,8" />
+                                <TextBox Text="{Binding ManagedPrintingMaterialBarcode, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputTextBoxStyle}" />
+
+                                <TextBlock Text="الكود الداخلي" Style="{StaticResource FieldLabelText}" Margin="0,12,0,8" />
+                                <TextBox Text="{Binding ManagedPrintingMaterialInternalCode}"
+                                         Style="{StaticResource InputTextBoxStyle}"
+                                         IsReadOnly="True" />
+
+                                <Grid Margin="0,12,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="12" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="سعر الشراء" Style="{StaticResource FieldLabelText}" />
+                                        <TextBox Text="{Binding ManagedPrintingMaterialPurchasePrice, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputTextBoxStyle}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="المخزون" Style="{StaticResource FieldLabelText}" />
+                                        <TextBox Text="{Binding ManagedPrintingMaterialStockQuantity, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputTextBoxStyle}" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <TextBlock Text="حد تنبيه المخزون" Style="{StaticResource FieldLabelText}" Margin="0,12,0,8" />
+                                <TextBox Text="{Binding ManagedPrintingMaterialLowStockThreshold, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource InputTextBoxStyle}" />
+
+                                <TextBlock Text="{Binding ManagedPrintingMaterialMessage}" Foreground="{StaticResource ErrorBrush}" TextWrapping="Wrap" Margin="0,14,0,0" />
+                                <Button Content="حفظ خامة الطباعة" Command="{Binding SavePrintingMaterialCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,18,0,0" />
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
             </Grid>
 
             <Grid Visibility="{Binding ProductionVisibility}">
@@ -2149,7 +2245,7 @@
                             <StackPanel Grid.Row="3" Margin="0,18,0,0">
                                 <Button Content="إضافة للفاتورة" Command="{Binding AddSelectedProductCommand}" Style="{StaticResource PrimaryButtonStyle}" />
 
-                                <Border BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" Padding="12" Margin="0,14,0,0" CornerRadius="8">
+                                <Border BorderBrush="{StaticResource BorderBrushSoft}" BorderThickness="1" Padding="12" Margin="0,14,0,0" CornerRadius="8" Visibility="Collapsed">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />

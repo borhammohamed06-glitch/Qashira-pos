@@ -102,7 +102,7 @@ public sealed class PrintingServiceTemplateService(
         var normalized = ArabicTextNormalizer.NormalizeForSearch(searchText);
         var query = dbContext.Products
             .AsNoTracking()
-            .Where(x => x.IsActive);
+            .Where(x => x.IsActive && x.ProductType == ProductType.PrintingMaterial);
 
         if (!string.IsNullOrWhiteSpace(normalized))
         {
@@ -298,7 +298,10 @@ public sealed class PrintingServiceTemplateService(
         if (materialIds.Length > 0)
         {
             var activeMaterialCount = await dbContext.Products
-                .CountAsync(x => materialIds.Contains(x.Id) && x.IsActive, cancellationToken);
+                .CountAsync(x => materialIds.Contains(x.Id) &&
+                    x.IsActive &&
+                    x.ProductType == ProductType.PrintingMaterial,
+                    cancellationToken);
 
             if (activeMaterialCount != materialIds.Length)
             {

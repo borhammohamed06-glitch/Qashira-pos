@@ -7,3 +7,5 @@ C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\Qashi
 C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\Qashira.Shared.dll
 C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\refint\Qashira.Shared.dll
 C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\ref\Qashira.Shared.dll
+C:\Users\borha\Documents\New project\src\Qashira.Shared\bin\Release\net8.0\Qashira.Shared.pdb
+C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\Qashira.Shared.pdb

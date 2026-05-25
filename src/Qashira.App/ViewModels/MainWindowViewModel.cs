@@ -28,6 +28,7 @@ public sealed class MainWindowViewModel : ViewModelBase
     private readonly ICategoryManagementService _categoryManagementService;
     private readonly IProductImportExportService _productImportExportService;
     private readonly IPrintingServiceTemplateService _printingServiceTemplateService;
+    private readonly IPrintingMaterialService _printingMaterialService;
     private readonly IInventoryService _inventoryService;
     private readonly INotificationService _notificationService;
     private readonly IPOSService _posService;
@@ -81,6 +82,7 @@ public sealed class MainWindowViewModel : ViewModelBase
     private string _productName = string.Empty;
     private string _productBarcode = string.Empty;
     private string _productInternalCode = string.Empty;
+    private ProductTypeOptionDto? _selectedProductType;
     private CategoryOptionDto? _selectedCategory;
     private string _productPurchasePrice = string.Empty;
     private string _productSalePrice = string.Empty;
@@ -126,6 +128,18 @@ public sealed class MainWindowViewModel : ViewModelBase
     private string _printingMaterialQuantityPerUnit = "1";
     private string _printingMaterialNotes = string.Empty;
     private PrintingMaterialConsumptionViewModel? _selectedPrintingTemplateMaterial;
+    private PrintingMaterialDto? _selectedManagedPrintingMaterial;
+    private string _printingMaterialsSearchText = string.Empty;
+    private bool _showInactivePrintingMaterials;
+    private int? _editingPrintingMaterialId;
+    private string _managedPrintingMaterialName = string.Empty;
+    private string _managedPrintingMaterialBarcode = string.Empty;
+    private string _managedPrintingMaterialInternalCode = string.Empty;
+    private CategoryOptionDto? _selectedManagedPrintingMaterialCategory;
+    private string _managedPrintingMaterialPurchasePrice = string.Empty;
+    private decimal _managedPrintingMaterialStockQuantity;
+    private int _managedPrintingMaterialLowStockThreshold = 5;
+    private string _managedPrintingMaterialMessage = string.Empty;
     private string _cashierPrintingServiceQuantity = "1";
     private string _printServiceName = "خدمة طباعة";
     private string _returnInvoiceNumber = string.Empty;
@@ -201,6 +215,7 @@ public sealed class MainWindowViewModel : ViewModelBase
         ICategoryManagementService categoryManagementService,
         IProductImportExportService productImportExportService,
         IPrintingServiceTemplateService printingServiceTemplateService,
+        IPrintingMaterialService printingMaterialService,
         IInventoryService inventoryService,
         INotificationService notificationService,
         IReturnService returnService,
@@ -224,6 +239,7 @@ public sealed class MainWindowViewModel : ViewModelBase
         _categoryManagementService = categoryManagementService;
         _productImportExportService = productImportExportService;
         _printingServiceTemplateService = printingServiceTemplateService;
+        _printingMaterialService = printingMaterialService;
         _inventoryService = inventoryService;
         _notificationService = notificationService;
         _returnService = returnService;
@@ -262,6 +278,11 @@ public sealed class MainWindowViewModel : ViewModelBase
         ShowCategoriesCommand = new AsyncRelayCommand(ShowCategoriesAsync);
         ShowPrintingMaterialsCommand = new AsyncRelayCommand(ShowPrintingMaterialsAsync);
         ShowProductionCommand = new AsyncRelayCommand(ShowProductionAsync);
+        SearchPrintingMaterialsCommand = new AsyncRelayCommand(LoadManagedPrintingMaterialsAsync);
+        NewPrintingMaterialCommand = new AsyncRelayCommand(NewPrintingMaterialAsync);
+        EditSelectedPrintingMaterialCommand = new AsyncRelayCommand(EditSelectedPrintingMaterialAsync);
+        SavePrintingMaterialCommand = new AsyncRelayCommand(SavePrintingMaterialAsync);
+        TogglePrintingMaterialActiveCommand = new AsyncRelayCommand(TogglePrintingMaterialActiveAsync);
         SearchManagedProductsCommand = new AsyncRelayCommand(LoadManagedProductsAsync);
         SaveCategoryCommand = new AsyncRelayCommand(SaveCategoryAsync);
         NewCategoryCommand = new AsyncRelayCommand(NewCategoryAsync);
@@ -332,6 +353,7 @@ public sealed class MainWindowViewModel : ViewModelBase
         CloseQuickNavigationCommand = new AsyncRelayCommand(CloseQuickNavigationAsync);
         NavigateToSelectedQuickNavigationCommand = new AsyncRelayCommand(NavigateToSelectedQuickNavigationAsync);
         SelectedCategoryMeasurementUnit = CategoryMeasurementUnits.FirstOrDefault();
+        SelectedProductType = ProductTypes.FirstOrDefault();
         SelectedPrintingServiceType = PrintingServiceTypes.LastOrDefault();
         SelectedPrintingServiceInkCostMode = InkCostModes.FirstOrDefault();
         CartLines.CollectionChanged += CartLines_OnCollectionChanged;
@@ -498,6 +520,12 @@ public sealed class MainWindowViewModel : ViewModelBase
     {
         get => _productInternalCode;
         set => SetProperty(ref _productInternalCode, value);
+    }
+
+    public ProductTypeOptionDto? SelectedProductType
+    {
+        get => _selectedProductType;
+        set => SetProperty(ref _selectedProductType, value);
     }
 
     public CategoryOptionDto? SelectedCategory
@@ -832,6 +860,84 @@ public sealed class MainWindowViewModel : ViewModelBase
     {
         get => _selectedPrintingTemplateMaterial;
         set => SetProperty(ref _selectedPrintingTemplateMaterial, value);
+    }
+
+    public PrintingMaterialDto? SelectedManagedPrintingMaterial
+    {
+        get => _selectedManagedPrintingMaterial;
+        set
+        {
+            if (SetProperty(ref _selectedManagedPrintingMaterial, value))
+            {
+                OnPropertyChanged(nameof(CanToggleManagedPrintingMaterialActive));
+            }
+        }
+    }
+
+    public string PrintingMaterialsSearchText
+    {
+        get => _printingMaterialsSearchText;
+        set => SetProperty(ref _printingMaterialsSearchText, value);
+    }
+
+    public bool ShowInactivePrintingMaterials
+    {
+        get => _showInactivePrintingMaterials;
+        set => SetProperty(ref _showInactivePrintingMaterials, value);
+    }
+
+    public string ManagedPrintingMaterialName
+    {
+        get => _managedPrintingMaterialName;
+        set => SetProperty(ref _managedPrintingMaterialName, value);
+    }
+
+    public string ManagedPrintingMaterialBarcode
+    {
+        get => _managedPrintingMaterialBarcode;
+        set => SetProperty(ref _managedPrintingMaterialBarcode, value);
+    }
+
+    public string ManagedPrintingMaterialInternalCode
+    {
+        get => _managedPrintingMaterialInternalCode;
+        set => SetProperty(ref _managedPrintingMaterialInternalCode, value);
+    }
+
+    public CategoryOptionDto? SelectedManagedPrintingMaterialCategory
+    {
+        get => _selectedManagedPrintingMaterialCategory;
+        set
+        {
+            if (SetProperty(ref _selectedManagedPrintingMaterialCategory, value))
+            {
+                OnPropertyChanged(nameof(SelectedManagedPrintingMaterialUnitText));
+            }
+        }
+    }
+
+    public string ManagedPrintingMaterialPurchasePrice
+    {
+        get => _managedPrintingMaterialPurchasePrice;
+        set => SetProperty(ref _managedPrintingMaterialPurchasePrice, value);
+    }
+
+    public decimal ManagedPrintingMaterialStockQuantity
+    {
+        get => _managedPrintingMaterialStockQuantity;
+        set => SetProperty(ref _managedPrintingMaterialStockQuantity, value);
+    }
+
+    public int ManagedPrintingMaterialLowStockThreshold
+    {
+        get => _managedPrintingMaterialLowStockThreshold;
+        set => SetProperty(ref _managedPrintingMaterialLowStockThreshold, value);
+    }
+
+    public string ManagedPrintingMaterialMessage
+    {
+        get => _managedPrintingMaterialMessage;
+        set => SetProperty(ref _managedPrintingMaterialMessage, value);
     }
 
     public string CashierPrintingServiceQuantity
@@ -1308,6 +1414,7 @@ public sealed class MainWindowViewModel : ViewModelBase
 
     public ObservableCollection<ProductLookupDto> Products { get; } = new();
     public ObservableCollection<ProductDetailsDto> ManagedProducts { get; } = new();
+    public ObservableCollection<ProductTypeOptionDto> ProductTypes { get; } = new(ProductTypeLabels.SellableOptions);
     public ObservableCollection<CategoryDetailsDto> ManagedCategories { get; } = new();
     public ObservableCollection<MeasurementUnitOptionDto> CategoryMeasurementUnits { get; } = new(MeasurementUnitLabels.Options);
     public ObservableCollection<InventoryProductDto> InventoryProducts { get; } = new();
@@ -1322,6 +1429,7 @@ public sealed class MainWindowViewModel : ViewModelBase
     public ObservableCollection<InkCostModeOptionDto> InkCostModes { get; } = new(InkCostModeLabels.Options);
     public ObservableCollection<PrintingMaterialProductOptionDto> PrintingMaterialProducts { get; } = new();
     public ObservableCollection<PrintingMaterialConsumptionViewModel> PrintingTemplateMaterials { get; } = new();
+    public ObservableCollection<PrintingMaterialDto> ManagedPrintingMaterials { get; } = new();
     public ObservableCollection<ReturnItemViewModel> ReturnItems { get; } = new();
     public ObservableCollection<ReturnInvoiceMatchDto> PossibleReturnInvoices { get; } = new();
     public ObservableCollection<TopSellingProductDto> TopSellingProducts { get; } = new();
@@ -1378,6 +1486,11 @@ public sealed class MainWindowViewModel : ViewModelBase
     public ICommand ShowCategoriesCommand { get; }
     public ICommand ShowPrintingMaterialsCommand { get; }
     public ICommand ShowProductionCommand { get; }
+    public ICommand SearchPrintingMaterialsCommand { get; }
+    public ICommand NewPrintingMaterialCommand { get; }
+    public ICommand EditSelectedPrintingMaterialCommand { get; }
+    public ICommand SavePrintingMaterialCommand { get; }
+    public ICommand TogglePrintingMaterialActiveCommand { get; }
     public ICommand SearchManagedProductsCommand { get; }
     public ICommand SaveCategoryCommand { get; }
     public ICommand NewCategoryCommand { get; }
@@ -1454,7 +1567,7 @@ public sealed class MainWindowViewModel : ViewModelBase
     public bool CanOpenProducts => HasPermission(PermissionCodes.CanEditProduct);
     public bool CanOpenBarcode => HasPermission(PermissionCodes.CanEditProduct);
     public bool CanOpenCategories => HasPermission(PermissionCodes.CanManageSettings);
-    public bool CanOpenPrintingMaterials => HasPermission(PermissionCodes.CanManageStock) || HasPermission(PermissionCodes.CanEditProduct);
+    public bool CanOpenPrintingMaterials => HasPermission(PermissionCodes.CanManageStock);
     public bool CanOpenProduction => HasPermission(PermissionCodes.CanManageStock) || HasPermission(PermissionCodes.CanEditProduct);
     public bool CanOpenPrintingServices => HasPermission(PermissionCodes.CanManageSettings);
     public bool CanOpenInventory => HasPermission(PermissionCodes.CanManageStock);
@@ -1479,9 +1592,14 @@ public sealed class MainWindowViewModel : ViewModelBase
         SelectedManagedCategory is not null && HasPermission(PermissionCodes.CanManageSettings);
     public bool CanTogglePrintingServiceTemplateActive =>
         SelectedPrintingServiceTemplate is not null && HasPermission(PermissionCodes.CanManageSettings);
+    public bool CanToggleManagedPrintingMaterialActive =>
+        SelectedManagedPrintingMaterial is not null && HasPermission(PermissionCodes.CanManageStock);
     public string SelectedCategoryUnitText => SelectedCategory is null
         ? "اختر التصنيف أولاً"
         : $"وحدة القياس: {SelectedCategory.MeasurementUnitText}";
+    public string SelectedManagedPrintingMaterialUnitText => SelectedManagedPrintingMaterialCategory is null
+        ? "اختر التصنيف لتحديد وحدة القياس"
+        : $"وحدة القياس: {SelectedManagedPrintingMaterialCategory.MeasurementUnitText}";
     public string ProductStockQuantityLabel => SelectedCategory?.MeasurementUnit switch
     {
         MeasurementUnit.Meter or MeasurementUnit.Kilogram or MeasurementUnit.Liter => "الكمية الموجودة",
@@ -1601,6 +1719,7 @@ public sealed class MainWindowViewModel : ViewModelBase
         OnPropertyChanged(nameof(CanToggleManagedProductActive));
         OnPropertyChanged(nameof(CanToggleManagedCategoryActive));
         OnPropertyChanged(nameof(CanTogglePrintingServiceTemplateActive));
+        OnPropertyChanged(nameof(CanToggleManagedPrintingMaterialActive));
         OnPropertyChanged(nameof(DiscountVisibility));
     }
 
@@ -1820,7 +1939,7 @@ public sealed class MainWindowViewModel : ViewModelBase
         new("التصنيفات", "Categories", "وحدات قياس فئات", CanOpenCategories),
         new("المخزون والتنبيهات", "Inventory", "كمية تنبيه منخفض", CanOpenInventory),
         new("خدمات الطباعة", "PrintingServices", "تصوير سكان تغليف تجليد", CanOpenPrintingServices),
-        new("خامات الطباعة (قيد التطوير)", "PrintingMaterials", "ورق غلاف سلك رول ريسيت قيد التطوير", CanOpenPrintingMaterials),
+        new("خامات الطباعة", "PrintingMaterials", "ورق غلاف سلك رول خامات تشغيل", CanOpenPrintingMaterials),
         new("الإنتاج (قيد التطوير)", "Production", "مطبوعات مذكرة كتاب ملزمة قيد التطوير", CanOpenProduction),
         new("تقارير المبيعات", "Reports", "مبيعات يوم اسبوع شهر", CanOpenReports),
         new("تقارير الأرباح (قيد التطوير)", "ProfitReports", "ارباح تكلفة صافي ربح قيد التطوير", CanOpenProfitReports),
@@ -2045,10 +2164,11 @@ public sealed class MainWindowViewModel : ViewModelBase
         await LoadCategoriesAsync();
     }
 
-    private Task ShowPrintingMaterialsAsync()
+    private async Task ShowPrintingMaterialsAsync()
     {
         SetActiveWorkspace("PrintingMaterials");
-        return Task.CompletedTask;
+        await LoadCategoriesAsync();
+        await LoadManagedPrintingMaterialsAsync();
     }
 
     private Task ShowProductionAsync()
@@ -2484,6 +2604,7 @@ public sealed class MainWindowViewModel : ViewModelBase
         ProductName = string.Empty;
         ProductBarcode = string.Empty;
         ProductInternalCode = string.Empty;
+        SelectedProductType = ProductTypes.FirstOrDefault();
         ProductPurchasePrice = string.Empty;
         ProductSalePrice = string.Empty;
         ProductStockQuantity = 0;
@@ -2507,6 +2628,8 @@ public sealed class MainWindowViewModel : ViewModelBase
         ProductName = SelectedManagedProduct.Name;
         ProductBarcode = SelectedManagedProduct.Barcode;
         ProductInternalCode = SelectedManagedProduct.InternalCode;
+        SelectedProductType = ProductTypes.FirstOrDefault(x => x.Value == SelectedManagedProduct.ProductType)
+            ?? ProductTypes.FirstOrDefault();
         ProductPurchasePrice = SelectedManagedProduct.PurchasePrice.ToString("0.##", CultureInfo.InvariantCulture);
         ProductSalePrice = SelectedManagedProduct.SalePrice.ToString("0.##", CultureInfo.InvariantCulture);
         ProductStockQuantity = SelectedManagedProduct.StockQuantity;
@@ -2560,6 +2683,7 @@ public sealed class MainWindowViewModel : ViewModelBase
             ProductName,
             ProductBarcode,
             null,
+            SelectedProductType?.Value ?? ProductType.NormalProduct,
             SelectedCategory?.Id,
             purchasePrice,
             salePrice,
@@ -4397,6 +4521,141 @@ public sealed class MainWindowViewModel : ViewModelBase
         }
 
         SelectedCashierPrintingTemplate = CashierPrintingTemplates.FirstOrDefault();
+    }
+
+    private async Task LoadManagedPrintingMaterialsAsync()
+    {
+        ManagedPrintingMaterials.Clear();
+        SelectedManagedPrintingMaterial = null;
+
+        try
+        {
+            var materials = await _printingMaterialService.SearchAsync(
+                PrintingMaterialsSearchText,
+                ShowInactivePrintingMaterials);
+
+            foreach (var material in materials)
+            {
+                ManagedPrintingMaterials.Add(material);
+            }
+
+            SelectedManagedPrintingMaterial = ManagedPrintingMaterials.FirstOrDefault();
+            ManagedPrintingMaterialMessage = materials.Count == 0 ? "لا توجد خامات طباعة مطابقة." : string.Empty;
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            ManagedPrintingMaterialMessage = ex.Message;
+        }
+    }
+
+    private Task NewPrintingMaterialAsync()
+    {
+        _editingPrintingMaterialId = null;
+        ManagedPrintingMaterialName = string.Empty;
+        ManagedPrintingMaterialBarcode = string.Empty;
+        ManagedPrintingMaterialInternalCode = string.Empty;
+        ManagedPrintingMaterialPurchasePrice = string.Empty;
+        ManagedPrintingMaterialStockQuantity = 0;
+        ManagedPrintingMaterialLowStockThreshold = _systemLowStockThreshold > 0 ? _systemLowStockThreshold : 5;
+        SelectedManagedPrintingMaterialCategory = Categories.FirstOrDefault();
+        ManagedPrintingMaterialMessage = "الخامة لا تظهر في الكاشير، وتستخدم فقط لاستهلاك خدمات الطباعة.";
+        return Task.CompletedTask;
+    }
+
+    private Task EditSelectedPrintingMaterialAsync()
+    {
+        if (SelectedManagedPrintingMaterial is null)
+        {
+            ManagedPrintingMaterialMessage = "اختر خامة طباعة للتعديل.";
+            return Task.CompletedTask;
+        }
+
+        _editingPrintingMaterialId = SelectedManagedPrintingMaterial.Id;
+        ManagedPrintingMaterialName = SelectedManagedPrintingMaterial.Name;
+        ManagedPrintingMaterialBarcode = SelectedManagedPrintingMaterial.Barcode;
+        ManagedPrintingMaterialInternalCode = SelectedManagedPrintingMaterial.InternalCode;
+        ManagedPrintingMaterialPurchasePrice = SelectedManagedPrintingMaterial.PurchasePrice.ToString("0.##", CultureInfo.InvariantCulture);
+        ManagedPrintingMaterialStockQuantity = SelectedManagedPrintingMaterial.StockQuantity;
+        ManagedPrintingMaterialLowStockThreshold = SelectedManagedPrintingMaterial.LowStockThreshold;
+        SelectedManagedPrintingMaterialCategory = Categories.FirstOrDefault(x => x.Id == SelectedManagedPrintingMaterial.CategoryId);
+        ManagedPrintingMaterialMessage = $"جاري تعديل خامة الطباعة: {SelectedManagedPrintingMaterial.Name}";
+        return Task.CompletedTask;
+    }
+
+    private async Task SavePrintingMaterialAsync()
+    {
+        if (!_cashierId.HasValue)
+        {
+            ManagedPrintingMaterialMessage = "سجّل الدخول أولاً.";
+            return;
+        }
+
+        if (!TryParseMoney(ManagedPrintingMaterialPurchasePrice, out var purchasePrice))
+        {
+            ManagedPrintingMaterialMessage = "سعر الشراء غير صحيح.";
+            return;
+        }
+
+        try
+        {
+            var result = await _printingMaterialService.SaveAsync(
+                new UpsertPrintingMaterialRequest(
+                    _editingPrintingMaterialId,
+                    ManagedPrintingMaterialName,
+                    ManagedPrintingMaterialBarcode,
+                    SelectedManagedPrintingMaterialCategory?.Id,
+                    purchasePrice,
+                    ManagedPrintingMaterialStockQuantity,
+                    ManagedPrintingMaterialLowStockThreshold),
+                _cashierId.Value);
+
+            ManagedPrintingMaterialMessage = result.Message;
+            if (!result.Succeeded)
+            {
+                return;
+            }
+
+            await LoadManagedPrintingMaterialsAsync();
+            await LoadPrintingMaterialProductsAsync();
+            await RefreshNotificationsAsync();
+            await NewPrintingMaterialAsync();
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            ManagedPrintingMaterialMessage = ex.Message;
+        }
+    }
+
+    private async Task TogglePrintingMaterialActiveAsync()
+    {
+        if (!_cashierId.HasValue)
+        {
+            ManagedPrintingMaterialMessage = "سجّل الدخول أولاً.";
+            return;
+        }
+
+        if (SelectedManagedPrintingMaterial is null)
+        {
+            ManagedPrintingMaterialMessage = "اختر خامة طباعة أولاً.";
+            return;
+        }
+
+        try
+        {
+            var result = await _printingMaterialService.SetActiveAsync(
+                SelectedManagedPrintingMaterial.Id,
+                !SelectedManagedPrintingMaterial.IsActive,
+                _cashierId.Value);
+
+            ManagedPrintingMaterialMessage = result.Message;
+            await LoadManagedPrintingMaterialsAsync();
+            await LoadPrintingMaterialProductsAsync();
+            await RefreshNotificationsAsync();
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            ManagedPrintingMaterialMessage = ex.Message;
+        }
     }
 
     private async Task LoadPrintingServicesAsync()

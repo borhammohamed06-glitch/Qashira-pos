@@ -101,6 +101,7 @@ public sealed class SalesAndReturnsRegressionTests
     {
         await using var scope = await TestDatabaseScope.CreateAsync();
         var seed = await scope.SeedOpenShiftAsync(stockQuantity: 100m, salePrice: 1m);
+        seed.Product.ProductType = ProductType.PrintingMaterial;
         seed.Product.PurchasePrice = 0.5m;
         await scope.DbContext.SaveChangesAsync();
 
@@ -168,6 +169,7 @@ public sealed class SalesAndReturnsRegressionTests
     {
         await using var scope = await TestDatabaseScope.CreateAsync();
         var seed = await scope.SeedOpenShiftAsync(stockQuantity: 100m, salePrice: 1m);
+        seed.Product.ProductType = ProductType.PrintingMaterial;
         seed.Product.PurchasePrice = 0.5m;
         await scope.DbContext.SaveChangesAsync();
 
@@ -243,6 +245,55 @@ public sealed class SalesAndReturnsRegressionTests
     }
 
     [Fact]
+    public async Task Product_lookup_and_printing_template_material_picker_keep_materials_separate()
+    {
+        await using var scope = await TestDatabaseScope.CreateAsync();
+        var seed = await scope.SeedOpenShiftAsync(stockQuantity: 10m, salePrice: 5m);
+
+        var material = new Product
+        {
+            Name = $"A4 paper {Guid.NewGuid():N}",
+            SearchName = "a4 paper",
+            InternalCode = Guid.NewGuid().ToString("N")[..12],
+            Barcode = Guid.NewGuid().ToString("N")[..12],
+            ProductType = ProductType.PrintingMaterial,
+            PurchasePrice = 250m,
+            SalePrice = 0m,
+            StockQuantity = 500m,
+            LowStockThreshold = 20,
+            IsActive = true
+        };
+        var printedProduct = new Product
+        {
+            Name = $"Printed memo {Guid.NewGuid():N}",
+            SearchName = "printed memo",
+            InternalCode = Guid.NewGuid().ToString("N")[..12],
+            Barcode = Guid.NewGuid().ToString("N")[..12],
+            ProductType = ProductType.PrintedProduct,
+            PurchasePrice = 15m,
+            SalePrice = 30m,
+            StockQuantity = 10m,
+            LowStockThreshold = 2,
+            IsActive = true
+        };
+
+        scope.DbContext.Products.AddRange(material, printedProduct);
+        await scope.DbContext.SaveChangesAsync();
+
+        var permissionService = new AllowAllPermissionService();
+        var cashierProducts = await new ProductLookupService(scope.DbContext, permissionService).SearchAsync("");
+        Assert.Contains(cashierProducts, x => x.Id == seed.Product.Id);
+        Assert.Contains(cashierProducts, x => x.Id == printedProduct.Id);
+        Assert.DoesNotContain(cashierProducts, x => x.Id == material.Id);
+
+        var materialOptions = await new PrintingServiceTemplateService(scope.DbContext, permissionService)
+            .GetMaterialProductsAsync("");
+        Assert.Contains(materialOptions, x => x.Id == material.Id);
+        Assert.DoesNotContain(materialOptions, x => x.Id == seed.Product.Id);
+        Assert.DoesNotContain(materialOptions, x => x.Id == printedProduct.Id);
+    }
+
+    [Fact]
     public async Task CompleteSaleAsync_uses_stock_unit_cost_for_carton_products_and_printing_materials()
     {
         await using var scope = await TestDatabaseScope.CreateAsync();
@@ -262,6 +313,7 @@ public sealed class SalesAndReturnsRegressionTests
             InternalCode = Guid.NewGuid().ToString("N")[..12],
             Barcode = Guid.NewGuid().ToString("N")[..12],
             Category = cartonCategory,
+            ProductType = ProductType.PrintingMaterial,
             PurchasePrice = 1000m,
             SalePrice = 0.5m,
             StockQuantity = 6000m,

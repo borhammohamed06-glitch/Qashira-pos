@@ -11,3 +11,7 @@ C:\Users\borha\Documents\New project\src\Qashira.Application\obj\Release\net8.0\
 C:\Users\borha\Documents\New project\src\Qashira.Application\obj\Release\net8.0\Qashira.Application.dll
 C:\Users\borha\Documents\New project\src\Qashira.Application\obj\Release\net8.0\refint\Qashira.Application.dll
 C:\Users\borha\Documents\New project\src\Qashira.Application\obj\Release\net8.0\ref\Qashira.Application.dll
+C:\Users\borha\Documents\New project\src\Qashira.Application\bin\Release\net8.0\Qashira.Application.pdb
+C:\Users\borha\Documents\New project\src\Qashira.Application\bin\Release\net8.0\Qashira.Domain.pdb
+C:\Users\borha\Documents\New project\src\Qashira.Application\bin\Release\net8.0\Qashira.Shared.pdb
+C:\Users\borha\Documents\New project\src\Qashira.Application\obj\Release\net8.0\Qashira.Application.pdb

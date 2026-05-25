@@ -23,7 +23,8 @@ public sealed class ProductManagementService(
 
         IQueryable<Product> query = dbContext.Products
             .AsNoTracking()
-            .Include(x => x.Category);
+            .Include(x => x.Category)
+            .Where(x => x.ProductType == ProductType.NormalProduct || x.ProductType == ProductType.PrintedProduct);
 
         if (!includeInactive)
         {
@@ -46,6 +47,7 @@ public sealed class ProductManagementService(
                 x.Name,
                 x.Barcode,
                 x.InternalCode,
+                x.ProductType,
                 x.CategoryId,
                 x.Category == null ? null : x.Category.Name,
                 x.PurchasePrice,
@@ -157,6 +159,7 @@ public sealed class ProductManagementService(
 
         product.Name = request.Name.Trim();
         product.SearchName = normalizedName;
+        product.ProductType = request.ProductType;
         product.CategoryId = request.CategoryId;
         product.PurchasePrice = request.PurchasePrice;
         product.SalePrice = request.SalePrice;
@@ -286,6 +289,7 @@ public sealed class ProductManagementService(
                 product.Name,
                 product.Barcode,
                 product.InternalCode,
+                product.ProductType,
                 product.CategoryId,
                 null,
                 product.PurchasePrice,
@@ -391,6 +395,11 @@ public sealed class ProductManagementService(
         if (request.StockQuantity < 0)
         {
             return Result.Failure("كمية المخزون لا يمكن أن تكون أقل من صفر.");
+        }
+
+        if (request.ProductType is not (ProductType.NormalProduct or ProductType.PrintedProduct))
+        {
+            return Result.Failure("شاشة المنتجات تقبل المنتجات العادية والمطبوعة فقط.");
         }
 
         if (request.PackageCount < 0 || request.UnitsPerPackage < 0)

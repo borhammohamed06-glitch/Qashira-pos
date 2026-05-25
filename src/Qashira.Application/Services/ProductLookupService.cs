@@ -1,6 +1,7 @@
 using Qashira.Application.Abstractions;
 using Qashira.Application.DTOs;
 using Qashira.Application.Permissions;
+using Qashira.Domain.Enums;
 using Qashira.Shared.Arabic;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +19,7 @@ public sealed class ProductLookupService(
 
         var query = dbContext.Products
             .AsNoTracking()
-            .Where(x => x.IsActive);
+            .Where(x => x.IsActive && (x.ProductType == ProductType.NormalProduct || x.ProductType == ProductType.PrintedProduct));
 
         if (!string.IsNullOrWhiteSpace(normalized))
         {
@@ -43,7 +44,9 @@ public sealed class ProductLookupService(
 
         return await dbContext.Products
             .AsNoTracking()
-            .Where(x => x.IsActive && x.Barcode == trimmed)
+            .Where(x => x.IsActive &&
+                (x.ProductType == ProductType.NormalProduct || x.ProductType == ProductType.PrintedProduct) &&
+                x.Barcode == trimmed)
             .Select(x => new ProductLookupDto(x.Id, x.Name, x.Barcode, x.SalePrice, x.StockQuantity))
             .SingleOrDefaultAsync(cancellationToken);
     }

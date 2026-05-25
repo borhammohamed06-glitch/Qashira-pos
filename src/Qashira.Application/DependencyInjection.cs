@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IReceiptService, ReceiptService>();
         services.AddScoped<IPrinterSettingsService, PrinterSettingsService>();
         services.AddScoped<IPrintingServiceTemplateService, PrintingServiceTemplateService>();
+        services.AddScoped<IPrintingMaterialService, PrintingMaterialService>();
         services.AddScoped<ISystemSettingsService, SystemSettingsService>();
         services.AddScoped<IBackupService, BackupService>();
         services.AddScoped<IAutomaticBackupService, AutomaticBackupService>();
