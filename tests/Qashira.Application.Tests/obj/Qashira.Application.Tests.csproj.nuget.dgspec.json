@@ -1,0 +1,465 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\borha\\Documents\\New project\\tests\\Qashira.Application.Tests\\Qashira.Application.Tests.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Application\\Qashira.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Application\\Qashira.Application.csproj",
+        "projectName": "Qashira.Application",
+        "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Application\\Qashira.Application.csproj",
+        "packagesPath": "C:\\Users\\borha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Application\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\borha\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\Qashira.Domain.csproj": {
+                "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\Qashira.Domain.csproj"
+              },
+              "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\Qashira.Shared.csproj": {
+                "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\Qashira.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.105.0, )"
+            },
+            "ExcelDataReader": {
+              "target": "Package",
+              "version": "[3.8.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Microsoft.Extensions.DependencyInjection.Abstractions": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "System.Text.Encoding.CodePages": {
+              "target": "Package",
+              "version": "[10.0.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\Qashira.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\Qashira.Domain.csproj",
+        "projectName": "Qashira.Domain",
+        "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\Qashira.Domain.csproj",
+        "packagesPath": "C:\\Users\\borha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\borha\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Infrastructure\\Qashira.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Infrastructure\\Qashira.Infrastructure.csproj",
+        "projectName": "Qashira.Infrastructure",
+        "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Infrastructure\\Qashira.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\borha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Infrastructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\borha\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Application\\Qashira.Application.csproj": {
+                "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Application\\Qashira.Application.csproj"
+              },
+              "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\Qashira.Domain.csproj": {
+                "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\Qashira.Domain.csproj"
+              },
+              "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\Qashira.Shared.csproj": {
+                "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\Qashira.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Serilog.Sinks.File": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\Qashira.Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\Qashira.Shared.csproj",
+        "projectName": "Qashira.Shared",
+        "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\Qashira.Shared.csproj",
+        "packagesPath": "C:\\Users\\borha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\borha\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\borha\\Documents\\New project\\tests\\Qashira.Application.Tests\\Qashira.Application.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\borha\\Documents\\New project\\tests\\Qashira.Application.Tests\\Qashira.Application.Tests.csproj",
+        "projectName": "Qashira.Application.Tests",
+        "projectPath": "C:\\Users\\borha\\Documents\\New project\\tests\\Qashira.Application.Tests\\Qashira.Application.Tests.csproj",
+        "packagesPath": "C:\\Users\\borha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\borha\\Documents\\New project\\tests\\Qashira.Application.Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\borha\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Application\\Qashira.Application.csproj": {
+                "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Application\\Qashira.Application.csproj"
+              },
+              "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\Qashira.Domain.csproj": {
+                "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Domain\\Qashira.Domain.csproj"
+              },
+              "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Infrastructure\\Qashira.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Infrastructure\\Qashira.Infrastructure.csproj"
+              },
+              "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\Qashira.Shared.csproj": {
+                "projectPath": "C:\\Users\\borha\\Documents\\New project\\src\\Qashira.Shared\\Qashira.Shared.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.200"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.Data.Sqlite": {
+              "target": "Package",
+              "version": "[8.0.22, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.12.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.9.2, )"
+            },
+            "xunit.runner.visualstudio": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.8.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.26, 8.0.26]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
