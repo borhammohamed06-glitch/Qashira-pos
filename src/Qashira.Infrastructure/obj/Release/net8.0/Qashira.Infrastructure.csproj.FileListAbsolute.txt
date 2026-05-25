@@ -1,0 +1,16 @@
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Infrastructure.deps.json
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Infrastructure.runtimeconfig.json
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Infrastructure.dll
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Application.dll
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Domain.dll
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\bin\Release\net8.0\Qashira.Shared.dll
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira.Infrastructure.AssemblyInfo.cs
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira..76B2DEF2.Up2Date
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira.Infrastructure.dll
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\refint\Qashira.Infrastructure.dll
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\Qashira.Infrastructure.genruntimeconfig.cache
+C:\Users\borha\Documents\New project\src\Qashira.Infrastructure\obj\Release\net8.0\ref\Qashira.Infrastructure.dll

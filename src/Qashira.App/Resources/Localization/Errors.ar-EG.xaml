@@ -1,0 +1,7 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="Error_Generic">حدث خطأ غير متوقع. برجاء المحاولة مرة أخرى أو التواصل مع الدعم الفني.</sys:String>
+    <sys:String x:Key="Error_PrinterNotConfigured">لم يتم اختيار الطابعة. برجاء مراجعة إعدادات الطباعة.</sys:String>
+    <sys:String x:Key="Error_ProductNotFound">لم يتم العثور على المنتج.</sys:String>
+</ResourceDictionary>

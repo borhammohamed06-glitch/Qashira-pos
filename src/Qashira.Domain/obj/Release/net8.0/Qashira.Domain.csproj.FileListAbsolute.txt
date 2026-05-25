@@ -1,0 +1,9 @@
+C:\Users\borha\Documents\New project\src\Qashira.Domain\bin\Release\net8.0\Qashira.Domain.deps.json
+C:\Users\borha\Documents\New project\src\Qashira.Domain\bin\Release\net8.0\Qashira.Domain.dll
+C:\Users\borha\Documents\New project\src\Qashira.Domain\obj\Release\net8.0\Qashira.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\borha\Documents\New project\src\Qashira.Domain\obj\Release\net8.0\Qashira.Domain.AssemblyInfoInputs.cache
+C:\Users\borha\Documents\New project\src\Qashira.Domain\obj\Release\net8.0\Qashira.Domain.AssemblyInfo.cs
+C:\Users\borha\Documents\New project\src\Qashira.Domain\obj\Release\net8.0\Qashira.Domain.csproj.CoreCompileInputs.cache
+C:\Users\borha\Documents\New project\src\Qashira.Domain\obj\Release\net8.0\Qashira.Domain.dll
+C:\Users\borha\Documents\New project\src\Qashira.Domain\obj\Release\net8.0\refint\Qashira.Domain.dll
+C:\Users\borha\Documents\New project\src\Qashira.Domain\obj\Release\net8.0\ref\Qashira.Domain.dll

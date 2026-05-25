@@ -1,0 +1,9 @@
+C:\Users\borha\Documents\New project\src\Qashira.Shared\bin\Release\net8.0\Qashira.Shared.deps.json
+C:\Users\borha\Documents\New project\src\Qashira.Shared\bin\Release\net8.0\Qashira.Shared.dll
+C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\Qashira.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\Qashira.Shared.AssemblyInfoInputs.cache
+C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\Qashira.Shared.AssemblyInfo.cs
+C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\Qashira.Shared.csproj.CoreCompileInputs.cache
+C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\Qashira.Shared.dll
+C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\refint\Qashira.Shared.dll
+C:\Users\borha\Documents\New project\src\Qashira.Shared\obj\Release\net8.0\ref\Qashira.Shared.dll

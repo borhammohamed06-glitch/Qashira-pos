@@ -1,0 +1,145 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#F3F6F9" />
+    <SolidColorBrush x:Key="SidebarBrush" Color="#17324D" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="TextBrush" Color="#14213D" />
+    <SolidColorBrush x:Key="MutedTextBrush" Color="#667085" />
+    <SolidColorBrush x:Key="BorderBrushSoft" Color="#D8DEE8" />
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#0E7C66" />
+    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#0A684F" />
+    <SolidColorBrush x:Key="ErrorBrush" Color="#B42318" />
+
+    <DataTemplate x:Key="CenteredWrappedButtonContentTemplate">
+        <TextBlock Text="{Binding}"
+                   TextWrapping="Wrap"
+                   TextAlignment="Center"
+                   TextTrimming="CharacterEllipsis" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="RightWrappedButtonContentTemplate">
+        <TextBlock Text="{Binding}"
+                   TextWrapping="Wrap"
+                   TextAlignment="Right"
+                   TextTrimming="CharacterEllipsis" />
+    </DataTemplate>
+
+    <Style x:Key="SurfacePanelStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="18" />
+    </Style>
+
+    <Style x:Key="InputTextBoxStyle" TargetType="TextBox">
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FlowDirection" Value="RightToLeft" />
+    </Style>
+
+    <Style x:Key="InputPasswordBoxStyle" TargetType="PasswordBox">
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSoft}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FlowDirection" Value="RightToLeft" />
+    </Style>
+
+    <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+        <Setter Property="MinHeight" Value="46" />
+        <Setter Property="Padding" Value="14,8" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ContentTemplate" Value="{StaticResource CenteredWrappedButtonContentTemplate}" />
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+        <Setter Property="MinHeight" Value="44" />
+        <Setter Property="MinWidth" Value="84" />
+        <Setter Property="Padding" Value="12,7" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ContentTemplate" Value="{StaticResource CenteredWrappedButtonContentTemplate}" />
+        <Setter Property="Background" Value="#E8F3F0" />
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
+        <Setter Property="Background" Value="#FEE4E2" />
+        <Setter Property="Foreground" Value="#B42318" />
+    </Style>
+
+    <Style x:Key="SidebarButtonStyle" TargetType="Button">
+        <Setter Property="MinHeight" Value="42" />
+        <Setter Property="Padding" Value="14,7" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="#22435F" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="ContentTemplate" Value="{StaticResource RightWrappedButtonContentTemplate}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#2D5576" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="Background" Value="#0E7C66" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="0.55" />
+                <Setter Property="Cursor" Value="Arrow" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TotalPanelStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="14" />
+    </Style>
+
+    <Style x:Key="WarningPanelStyle" TargetType="Border" BasedOn="{StaticResource TotalPanelStyle}">
+        <Setter Property="Background" Value="#B54708" />
+    </Style>
+
+    <Style x:Key="TotalLabelText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="#D8FFF4" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="TotalValueText" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="26" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+
+    <Style x:Key="NotificationBellButtonStyle" TargetType="Button">
+        <Setter Property="MinWidth" Value="46" />
+        <Setter Property="MinHeight" Value="46" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="#0A684F" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+</ResourceDictionary>

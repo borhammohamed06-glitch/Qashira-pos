@@ -1,0 +1,127 @@
+<Window x:Class="Qashira.App.ActivationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="تفعيل كاشيرا"
+        Width="560"
+        Height="620"
+        MinWidth="420"
+        MinHeight="480"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        FlowDirection="RightToLeft"
+        FontFamily="Cairo, Tajawal, Segoe UI"
+        Background="#F3F6FA"
+        Icon="Assets/qashira-icon.ico">
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+    <Border Margin="14"
+            Padding="18"
+            Background="White"
+            BorderBrush="#D7E0EA"
+            BorderThickness="1"
+            CornerRadius="8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,18">
+                <TextBlock Text="تفعيل كاشيرا"
+                           FontSize="30"
+                           FontWeight="Bold"
+                           Foreground="#0B1E3A" />
+                <TextBlock Text="أرسل كود الجهاز لصاحب النظام ثم أدخل كود التفعيل هنا."
+                           Margin="0,6,0,0"
+                           FontSize="15"
+                           Foreground="#5D6B82" />
+            </StackPanel>
+
+            <TextBlock Grid.Row="1"
+                       Text="كود الجهاز"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       Foreground="#0B1E3A" />
+
+            <Grid Grid.Row="2" Margin="0,8,0,18">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="8" />
+                    <ColumnDefinition Width="140" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="MachineCodeTextBox"
+                         Grid.Column="0"
+                         MinHeight="44"
+                         IsReadOnly="True"
+                         FlowDirection="LeftToRight"
+                         TextAlignment="Center"
+                         FontSize="16"
+                         FontWeight="SemiBold"
+                         VerticalContentAlignment="Center"
+                         BorderBrush="#C9D4E2"
+                         Background="#F8FAFC" />
+
+                <Button Grid.Column="2"
+                        MinHeight="44"
+                        Content="نسخ كود الجهاز"
+                        Click="CopyMachineCode_Click"
+                        Background="#E7F3EF"
+                        Foreground="#08735D"
+                        BorderBrush="#E7F3EF"
+                        FontWeight="SemiBold" />
+            </Grid>
+
+            <StackPanel Grid.Row="3">
+                <TextBlock Text="كود التفعيل"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="#0B1E3A" />
+                <TextBox x:Name="ActivationCodeTextBox"
+                         Margin="0,8,0,10"
+                         MinHeight="120"
+                         MaxHeight="180"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto"
+                         FlowDirection="LeftToRight"
+                         BorderBrush="#C9D4E2"
+                         FontSize="14"
+                         Padding="10" />
+                <TextBlock x:Name="MessageTextBlock"
+                           MinHeight="24"
+                           TextWrapping="Wrap"
+                           FontSize="14"
+                           Foreground="#B91C1C" />
+            </StackPanel>
+
+            <WrapPanel Grid.Row="4"
+                       Margin="0,18,0,0"
+                       HorizontalAlignment="Left">
+                <Button Width="150"
+                        MinHeight="46"
+                        Content="تفعيل"
+                        Click="Activate_Click"
+                        Background="#10856C"
+                        Foreground="White"
+                        BorderBrush="#10856C"
+                        FontSize="16"
+                        FontWeight="Bold" />
+                <Button Width="120"
+                        MinHeight="46"
+                        Margin="10,0,0,0"
+                        Content="خروج"
+                        Click="Exit_Click"
+                        Background="#FDE2E2"
+                        Foreground="#B91C1C"
+                        BorderBrush="#FDE2E2"
+                        FontSize="16"
+                        FontWeight="SemiBold" />
+            </WrapPanel>
+        </Grid>
+    </Border>
+    </ScrollViewer>
+</Window>
